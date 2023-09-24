@@ -1,0 +1,36 @@
+{% if module.display %}
+<div class="bg-white shadow-md mx-2 mb-4 py-8 rounded-md">
+    <div class="flex flex-col px-8">
+        <span class="text-lg font-semibold">{{ module.header }}</span>
+        <div class="bg-blue-500 w-12 h-1 rounded-full my-1"></div>
+        <div class="flex flex-col items-center mt-2">
+            <a href="javascript:void(0);" data-remote="/package/{{ module.package.id }}" class="w-48 bg-gray-50 py-4 px-8 rounded-md flex justify-center object-contain">
+                <img class="w-64" src="{{ module.package.image.url }}" alt="">
+            </a>
+            <span class="text-blue-700 tracking-wide text-md uppercase font-semibold mt-1">{{ module.package.name[:20] }}</span>
+            <div class="flex flex-row items-center">
+                {% if module.package.customPrice == false and module.package.price > 0 %}
+    				{% if module.package.discount.applied %}
+                        <span class="text-red-600 text-sm font-semibold line-through">{{ module.package.discount.original|money }} {{ module.package.currency }}</span>
+                    {% endif %}
+                    <span class="text-green-600 font-semibold ml-2">{{ module.package.price|money }} {{ module.package.currency }}</span>
+                {% endif %}
+            </div>
+            <div class="flex flex-row items-center mt-1">
+                <a href="javascript::void(0);" data-remote="/package/{{ module.package.id }}" class="bg-blue-500 hover:bg-blue-600 duration-100 rounded-md py-1 px-2 mx-1 toggle-modal">
+                    <span class="mdi mdi-information-variant text-md text-white"></span>
+                </a>
+                {% if module.package.basket %}
+                    <a href="/checkout/packages/remove/{{ module.package.id }}" class="text-md bg-red-500 hover:bg-red-600 duration-100 rounded-md py-1 px-4 text-white font-semibold mx-1">
+                        {{ __("Remove") }}
+                    </a>
+                {% else %}
+                    <a href="javascript::void(0);" data-remote="/package/{{ module.package.id }}" class="text-md toggle-modal bg-green-500 hover:bg-green-600 duration-100 rounded-md py-1 px-4 text-white font-semibold mx-1">
+                        {{ __("Buy") }}
+                    </a>
+                {% endif %} 
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

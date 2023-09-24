@@ -1,0 +1,25 @@
+{% if module.display %}
+<div class="bg-white shadow-md mx-2 mb-4 py-8 rounded-md">
+    <div class="flex flex-col px-8">
+        <div class="flex flex-row items-center justify-between">
+            <div class="flex flex-col">
+                <span class="text-lg place-self-start font-semibold">{{ module.header }}</span>
+                <div class="bg-blue-500 w-12 h-1 rounded-full my-1"></div>
+            </div>
+             {% if module.online %}
+            <span class="bg-green-600 px-4 py-1 rounded-md ml-2 text-white font-semibold uppercase">{{ __("Online") }}</span>
+            {% else %}
+            <span class="bg-red-600 px-4 py-1 rounded-md ml-2 text-white font-semibold uppercase">{{ __("Offline") }}</span>
+            {% endif %}
+        </div>
+        <div class="flex flex-col items-center mt-6">
+            <span class="text-lg font-semibold uppercase">{{ module.ip }} {% if module.port != 25565 %}:{{ module.port }} {% endif %} </span>
+            {% if module.online %}
+            <span class="text-sm font-semibold uppercase">{{ module.players.online }} / {{ module.players.max }} {{ __("players online.") }}</span>
+            {% else %}
+            <span class="text-sm font-semibold uppercase">0 / 0 {{ __("players online.") }}</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}

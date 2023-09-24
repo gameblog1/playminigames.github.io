@@ -1,0 +1,27 @@
+<div class="flex flex-row justify-between bg-white py-4 px-8 border-t border-gray-50">
+    {% if package.customPrice %}
+        <span class="text-sm font-semibold tracking-wide">{{ __("You decide how much to pay.") }}</span>
+    {% elseif package.price == 0.00 %}
+        <span class="text-sm font-semibold tracking-wide">{{ __("This item is free.") }}</span>
+    {% else %}
+        <span class="text-md font-semibold text-blue-500 tracking-wide">{{ package.price|money }} {{ basket.currency }}</span>
+    {% endif %}
+    <div {% if package.purchasable == false %}data-toggle="tooltip" title="{{ package.reason }}"{% endif %} style="display: inline-block;" class="package-footer-buttons">
+    {% if package.basket %}
+        <a href="/checkout/packages/remove/{{ package.id }}" class="w-full text-white font-semibold tracking-wide bg-red-500 hover:bg-red-600 focus:bg-red-600 duration-100 py-2 px-4 rounded-md">{{ __("Remove") }}</a>
+    {% else %}
+        {% if package.type != "single" %}
+            <a href="/checkout/packages/add/{{ package.id }}/subscribe" class="w-full text-white font-semibold tracking-wide bg-green-500 hover:bg-green-600 focus:bg-green-600 duration-100 py-2 px-4 rounded-md" {% if package.purchasable == false %}disabled{% endif %}>{{ __("Subscribe") }}</a>
+        {% endif %}
+    {% if package.type != "subscription" %}
+            <a href="/checkout/packages/add/{{ package.id }}/single" class="w-full text-white font-semibold tracking-wide bg-green-500 hover:bg-green-600 focus:bg-green-600 duration-100 py-2 px-4 rounded-md" {% if package.purchasable == false %}disabled{% endif %}>{{ __("Add to cart") }}</a>
+        {% endif %}
+    {% endif %}
+    </div>
+    {% if package.disable_gifting == false and package.storeGiftingEnabled %}
+    <form action="/checkout/packages/add/{{ package.id }}/single/gift" method="get" class="flex flex-col w-full mx-auto space-y-5 md:space-y-0 md:flex-row mt-2">
+        <input type="text" name="username" class="flex-1 w-full px-5 py-2 border border-gray-300 rounded-l-md focus:border-blue-700 focus:ring-blue-600 focus:ring-opacity-50 focus:outline-none" value="" placeholder="{{ __("Enter a username to gift this package to") }}">
+        <button type="submit" class="flex-shrink-0 px-6 py-2 font-medium text-center text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 duration-100 rounded-r-md focus:ring-blue-600 focus:ring-opacity-50 focus:ring-offset-2 focus:outline-none">Check</button>
+    </form>
+    {% endif %}
+</div> 

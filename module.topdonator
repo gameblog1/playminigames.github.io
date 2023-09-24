@@ -1,0 +1,38 @@
+
+<div class="bg-white shadow-md mx-2 mb-4 py-3 rounded-md">
+    {% if module.donor %}
+    <div class="flex flex-col px-8">
+        <div class="flex flex-row items-center mt-2">
+            <img class="w-16" src="{{ module.skin }}">
+            <div class="flex flex-col items-start ml-6">
+                <span class="text-blue-500 font-semibold text-lg">{{ module.ign }}</span>
+                {% if module.displayAmount %}
+                <span class="font-semibold text-lg">{{ __("Donated") }} <strong class="text-blue-500 font-semibold">{{ module.total|money }} {{ store.currency }}</strong> </span>
+                {% else %}
+                <div class="flex flex-row items-center">
+                    <span class="font-semibold text-lg">{{ __("Donated the most ") }}
+                        {% if module.period == "hourly" %}
+                            {{ __("this hour.") }}
+                        {% elseif module.period == "daily" %}
+                            {{ __("today.") }}
+                        {% elseif module.period == "monthly" %}
+                            {{ __("this month.") }}
+                        {% elseif module.period == "yearly" %}
+                           {{ __("this year.") }}
+                        {% else %}
+                            {{ __("this week.") }}
+                        {% endif %}
+                    </span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="px-8">
+        <span class="text-lg font-semibold">{{ module.header }}</span>
+        <div class="bg-blue-500 w-12 h-1 rounded-full my-1"></div>
+        <span class="text-sm tracking-wide font-semibold">{{ __("No recent top donator to display.") }}</span>
+    </div>
+    {% endif %}
+</div>

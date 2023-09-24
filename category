@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block category %}
+<div class="bg-white shadow-lg mx-2 pb-8 rounded-md">
+    <div class="p-6">
+        <span class="text-2xl font-semibold">{{ category.name }}</span>
+        <div class="bg-blue-500 w-12 h-1 rounded-full my-1"></div>
+
+        {% if category.packages|length > 0 %}
+        {% if category.displayType == "list" %}
+        <div class="flex flex-col mt-8">
+            {% for package in category.packages %}
+            <div class="flex flex-row items-center justify-between mb-2">
+                <div class="flex flex-col">
+                    <a href="javascript::void(0);" data-remote="/package/{{ package.id }}" class="flex flex-row items-center hover:text-blue-500 focus:text-blue-500 duration-100 toggle-modal">
+                        <span class="text-md font-semibold uppercase tracking-wide">{{ package.name }}</span>
+                        <span class="mdi mdi-information text-xl"></span>
+                    </a>
+                    <div class="flex flex-row items-center">
+                        {% if module.package.customPrice == false and module.package.price > 0 %}
+    				        {% if module.package.discount.applied %}
+    				        <span class="text-red-600 text-sm font-semibold line-through">{{ package.discount.original|money }} {{ basket.currency }}</span>
+                            {% endif %}
+                            <span class="text-green-600 font-semibold ml-2">{{ package.price|money }} {{ basket.currency }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="flex flex-row items-center">
+                    <a href="javascript::void(0);" data-remote="/package/{{ package.id }}" class="px-4 py-2 font-medium text-center text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 duration-100 rounded-md toggle-modal">
+                        <span class="mdi mdi-information text-md"></span>
+                    </a>
+                    {% if package.basket %}
+                        <a href="/checkout/packages/remove/{{ package.id }}" class="w-24 text-md bg-red-500 hover:bg-red-600 duration-100 rounded-md py-2 px-4 text-white mx-1">
+                            {{ __("Remove") }}
+                        </a>
+                    {% else %}
+                        <a href="javascript::void(0);" data-remote="/package/{{ package.id }}" class="w-24 text-center text-md toggle-modal bg-green-500 hover:bg-green-600 focus:bg-green-600 duration-100 rounded-md py-2 px-4 text-white font-semibold mx-1">
+                            {{ __("Buy") }}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8 mt-4">
+            {% for package in category.packages %}
+            <div class="flex flex-col">
+                <a href="#" class="group">
+                    <div class="w-full bg-gray-50 rounded-lg overflow-hidden">
+                        <a href="javascript:void(0);" data-remote="/package/{{ package.id }}" class="toggle-modal">
+                            <img src="{{ package.image.url }}" class="w-full h-48 object-contain group-hover:duration-100 group-hover:opacity-75">
+                        </a>
+                    </div>
+                    <h3 class="mt-2 text-md text-center text-blue-700 font-semibold leading-5">{{ package.name[:20] }}</h3>
+                    {% if package.customPrice == false and package.price > 0 %}
+				        {% if package.discount.applied %}
+				        <span class="text-red-600 text-sm font-semibold line-through text-center">{{ package.discount.original|money }} {{ basket.currency }}</span>
+                        {% endif %}
+                        <span class="text-green-600 font-semibold ml-2 text-center">{{ package.price|money }} {{ basket.currency }}</span>
+                    {% endif %}
+                </a>
+                <div class="flex flex-row justify-center items-center mt-1">
+                    <a href="javascript::void(0);" data-remote="/package/{{ package.id }}" class="bg-blue-500 hover:bg-blue-600 duration-100 rounded-md py-1 px-2 mx-1 toggle-modal">
+                        <span class="mdi mdi-information-variant text-md text-white"></span>
+                    </a>
+                    {% if package.basket %}
+                        <a href="/checkout/packages/remove/{{ package.id }}" class="text-md bg-red-500 hover:bg-red-600 duration-100 rounded-md py-1 px-4 text-white mx-1">
+                            {{ __("Remove") }}
+                        </a>
+                    {% else %}
+                        <a href="javascript::void(0);" data-remote="/package/{{ package.id }}" class="text-md toggle-modal bg-green-500 hover:bg-green-600 duration-100 rounded-md py-1 px-6 text-white font-semibold mx-1">
+                            {{ __("Buy") }}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% else %}
+        {{ __("No packages to display in this category.") }}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

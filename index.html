@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block index %}
+
+<div class="bg-white shadow-lg mx-2 pb-8 rounded-md">
+    <div class="flex flex-col items-center pt-8 px-8">
+        <img class="w-full h-20 object-cover mb-2 rounded-lg" src="{{ backgroundImg }}">
+        <div class="flex flex-col place-self-start mt-2">
+            <span class="text-2xl font-semibold tracking-wide">{{ __("Welcome") }}</span>
+            <span class="text-2xl text-blue-500 font-semibold tracking-wide underline uppercase">{{ serverName }} OFFICIAL
+                STORE</span>
+        </div>
+        <div class="mt-4">
+            {{ index.description|raw }}
+        </div>
+    </div>
+</div>
+{% endblock %}
